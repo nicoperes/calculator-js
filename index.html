@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <div class="display"></div>
+
+        <div class="output"></div>
+
+        <button class="lightgrey" onclick="handleReset()">AC</button>
+        <button class="lightgrey" onclick="switchValue()">+/-</button>
+        <button class="operator lightgrey" onclick="handleOperator('/')">÷</button>
+        <button class="orange" onclick="handleBackspace()">⌫</button>
+
+        <button class="number grey" onclick="handleNumber(7)">7</button>
+        <button class="number grey" onclick="handleNumber(8)">8</button>
+        <button class="number grey" onclick="handleNumber(9)">9</button>
+        <button class="operator orange" onclick="handleOperator('*')">x</button>
+
+        <button class="number grey" onclick="handleNumber(4)">4</button>
+        <button class="number grey" onclick="handleNumber(5)">5</button>
+        <button class="number grey" onclick="handleNumber(6)">6</button>
+        <button class="operator orange" onclick="handleOperator('-')">-</button>
+
+        <button class="number grey" onclick="handleNumber(1)">1</button>
+        <button class="nnumber grey" onclick="handleNumber(2)">2</button>
+        <button class="number grey" onclick="handleNumber(3)">3</button>
+        <button class="operator orange" onclick="handleOperator('+')">+</button>
+
+        <button class="number grey zero" onclick="handleNumber(0)">0</button>
+        <button class="dot grey" onclick="handleFloat()">.</button>
+        <button class="equal orange" onclick="handleEquals()">=</button>
+    </main>
+</body>
+<script src="./app.js"></script>
+</html>
