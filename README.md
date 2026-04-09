@@ -1,4 +1,5 @@
 # CALCULADORA EM JAVASCRIPT
+- Criei um sistema que resolve expressões em duas etapas que respeite precedência de operadores.
 
 ## PREVIEW
 ![Preview](./assets/calculatorjs.gif)
