@@ -6,7 +6,7 @@
 ## TECNOLOGIAS USADAS:
 - HTML5, CSS3 e JAVASCRIPT.
 
-##PRINCIPAIS FUNCIONALIDADES:
+## PRINCIPAIS FUNCIONALIDADES:
 - Operações básicas (+, -, *, /);
 - Suporte a números decimais;
 - Atualização dinâmica de resultado;
