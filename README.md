@@ -1,7 +1,7 @@
 # CALCULADORA EM JAVASCRIPT
 
 ## PREVIEW
-![Preview](./assets/calculator.gif)
+![Preview](./assets/calculatorjs.gif)
 
 ## TECNOLOGIAS USADAS:
 - HTML5, CSS3 e JAVASCRIPT.
