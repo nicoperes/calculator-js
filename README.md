@@ -1,5 +1,5 @@
 # CALCULADORA EM JAVASCRIPT
-- Criei um sistema que resolve expressões em duas etapas que respeite precedência de operadores.
+- Criei um sistema que resolve expressões em duas etapas que respeite precedência de operadores sem utilizar eval() e com manejamento de estados.
 
 ## PREVIEW
 ![Preview](./assets/calculatorjs.gif)
