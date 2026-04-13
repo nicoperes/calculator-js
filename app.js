@@ -1,13 +1,14 @@
 const display = document.querySelector('.display');
 const output = document.querySelector('.output');
-const zeroButton = document.querySelector('.zero');
 
 const state = {
     tokens: [],
     currentInput: '',
     displayTokens: '',
     isFirstMinus: false,
+    isEqualsPressed: false,    
     shouldResetDisplay: false,
+    error: null,
 };
 
 const operators = ['+', '-', '*', '/'];
@@ -17,7 +18,13 @@ const calculate = (a, op, b) => {
     b = parseFloat(b);
 
     if (op === '*') return a * b;
-    if (op === '/') return b !== 0 ? a / b : 'Error';
+    if (op === '/') {
+        if (b === 0) {
+            state.error = 'Impossível dividir por zero';
+            return null;
+        };
+       return a / b;
+    };
     if (op === '+') return a + b;
     if (op === '-') return a - b;
 };
@@ -55,16 +62,20 @@ const getResult = () => {
     return result;
 };
 
-const updateZeroButton = () => {
-    if (state.tokens[state.tokens.length - 1] ===  '/' && !state.currentInput)
-    return zeroButton.disabled = true;
-    else return zeroButton.disabled = false;
-}
+const adjustFontSize = (element, maxSize, minSize, startShrinking) => {
+    startShrinking ??= 8;
+    const elementLength = element.innerHTML.length;
 
-const render = () => {
-    updateZeroButton();
-    renderDisplay();
-};
+    if (elementLength <= startShrinking) {
+        element.style.fontSize = `${maxSize}rem`
+        return;
+    };
+
+    const ratio = startShrinking / elementLength;
+    const size = Math.max(minSize, maxSize * ratio);
+    
+    element.style.fontSize = `${size}rem`;
+}
 
 const renderDisplay = () => {
     if (!state.currentInput && state.tokens.length === 0) output.innerHTML = '';
@@ -78,11 +89,20 @@ const renderDisplay = () => {
 
     display.innerHTML = state.displayTokens + state.currentInput;
 
-    if (state.currentInput !== '-' && !state.currentInput.endsWith('.')) { 
+    if (state.currentInput !== '-' && !state.isEqualsPressed) {
+        state.error = null;
+
         const result = getResult();
-        if (result !== '') output.innerHTML = parseFloat(parseFloat(result).toPrecision(10));
+        
+        if (state.error) output.innerHTML = state.error;
+        else if (result !== '') output.innerHTML = parseFloat(parseFloat(result).toPrecision(10));
     }
- 
+
+    if (state.isEqualsPressed) state.isEqualsPressed = false;
+
+    adjustFontSize(display, 1.6, 1.2, 28);
+    adjustFontSize(output, 2.4, 1.8, 16);
+
     return state.shouldResetDisplay = true;
 };
 
@@ -98,14 +118,14 @@ const handleNumber = (n) => {
 
     state.currentInput = state.currentInput + n;
 
-    return render();
+    return renderDisplay();
 };
 
 const handleOperator = (operator) => {
     if (!state.currentInput && operator === '-' && !state.isFirstMinus) {
         state.currentInput = '-';
         state.shouldResetDisplay = false;
-        render();
+        renderDisplay();
         state.isFirstMinus = true;
         return;
     };
@@ -118,7 +138,7 @@ const handleOperator = (operator) => {
 
     state.isFirstMinus = false;
     state.shouldResetDisplay = false;
-    render();
+    renderDisplay();
 };
 
 const handleEquals = () => {
@@ -129,7 +149,8 @@ const handleEquals = () => {
     handleReset();
     state.currentInput = String(result);
     state.shouldResetDisplay = false;
-    render();
+    state.isEqualsPressed = true;
+    renderDisplay();
 };
 
 const handleFloat = () => {
@@ -138,17 +159,19 @@ const handleFloat = () => {
 
     state.currentInput += '.';
     state.shouldResetDisplay = false;
-    render();
+    renderDisplay();
 };
 
 const handleReset = () => {
     state.tokens.length = 0
     state.isFirstMinus = false;
-    state.currentInput = ''
-    state.displayTokens = ''
+    state.isEqualsPressed = false;
+    state.currentInput = '';
+    state.displayTokens = '';
+    state.error = null;
     
     state.shouldResetDisplay = false;
-    return render();
+    return renderDisplay();
 };
 
 const switchValue = () => {
@@ -156,7 +179,7 @@ const switchValue = () => {
 
     state.currentInput = String(-parseFloat(state.currentInput));
 
-    return render();
+    return renderDisplay();
 };
 
 const handleBackspace = () => {
@@ -164,5 +187,5 @@ const handleBackspace = () => {
     if (state.currentInput) state.currentInput = state.currentInput.slice(0, -1);
     
     state.shouldResetDisplay = false;
-    return render();
+    return renderDisplay();
 };
